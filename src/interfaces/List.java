@@ -1,6 +1,6 @@
 package interfaces;
 
-import main.Ballot;
+//import main.Ballot;
 
 /**
  * Interface that describes the behavior of a List.
