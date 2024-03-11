@@ -1,4 +1,5 @@
 package main;
+import interfaces.List;
 
 public class Election {
     /* Constructor that implements the election logic using the files candidates.csv 
@@ -35,7 +36,7 @@ public class Election {
     must be in order of elimination. Format should be <candidate name>-<number of 1s 
     when eliminated>*/
     public List<String> getEliminatedCandidates(){
-        return -1;
+        return null;
     } 
 
     /**
@@ -43,7 +44,7 @@ public class Election {
     * table with the vote distribution.
     * Meant for helping in the debugging process.
     */
-    public void printBallotDistribution() {
+    /*public void printBallotDistribution() {
         System.out.println("Total ballots:" + getTotalBallots());
         System.out.println("Total blank ballots:" + getTotalBlankBallots());
         System.out.println("Total invalid ballots:" + getTotalInvalidBallots());
@@ -58,7 +59,7 @@ public class Election {
             }
             System.out.println("|");
         }
-    }
+    }*/
    
     
   
