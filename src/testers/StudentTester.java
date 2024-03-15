@@ -4,6 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.IOException;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -250,7 +252,7 @@ public class StudentTester {
 		public class ElectionTests {
 			@Test
 			@DisplayName("Creating Election")
-			public void testConstructor1() {
+			public void testConstructor1() throws IOException {
 				Election election = new Election();
 				election.printBallotDistribution();
 				

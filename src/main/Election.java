@@ -17,6 +17,7 @@ public class Election {
     List<Integer> SecondVoteCount = new ArrayList<Integer>();
     List<String> eliminatedCandidateList = new ArrayList<String>();
     List<Candidate> removedCandList = new ArrayList<Candidate>();
+    List<Integer> removedListIndexes = new ArrayList<>();
 
     int maxrounds = this.candidateList.size();
     int electionround = 0;
@@ -61,25 +62,7 @@ public class Election {
             totalBallots++;
         }
         if(wname != null){
-            String data = "Number of ballots: " + getTotalBallots() + "\n";
-            data = data + "Number of blank ballots: " + getTotalBlankBallots() + "\n";
-            data = data + "Number of invalid ballots: " + getTotalInvalidBallots() + "\n";
-            int round = 1;
-            int candidateInd = 0;
-            for(Candidate cand : candidateList) {
-                for(Candidate s : removedCandList){
-                    if(s == cand){
-                        data = data + "Round " + round + " " + s.getName() + " was eliminated with " + ballotWhereCandisOneList.get(candidateInd) +"1's \n";
-                    }
-                }
-                candidateInd++;
-            }
-            data = data + wname + " wins with " + winnerVotes + "1's";
-            OutputStream output = new FileOutputStream("outputFiles/" + wname + winnerVotes + ".txt");
-            byte[] array = data.getBytes();
-            output.write(array);
-
-            output.close();
+            
         }
 
         
@@ -130,7 +113,7 @@ public class Election {
 
     }
     // returns the name of the winner of the election 
-    public String getWinner() {
+    public String getWinner() throws IOException {
         if (candidateList.isEmpty()){
             return null;
         }
@@ -166,12 +149,46 @@ public class Election {
         System.out.println("Max votes: " + maxVotes + "/" + totalBallots);
         
         List<Candidate> eliminatingCandidates = new ArrayList<>();
+        String winnerName = candidateList.get(winnerIndex).getName();
 
         if (maxVotes > totalBallots / 2) {
-            String winnerName = candidateList.get(winnerIndex).getName();
-            wname = winnerName;
-            winnerVotes = maxVotes;
-            System.out.println("winner checked");
+            String data = "Number of ballots: " + getTotalBallots() + "\n";
+            data = data + "Number of blank ballots: " + getTotalBlankBallots() + "\n";
+            data = data + "Number of invalid ballots: " + getTotalInvalidBallots() + "\n";
+            int round = 1;
+            for(Integer i : removedListIndexes){
+                int count = 1;
+                for(Candidate s : removedCandList){
+                    if(count == round){
+                        data = data + "Round " + round + ": " + s.getName() + " was eliminated with " + i +" #1's \n";
+                        
+                    }
+                    count++;
+                }
+                round++;
+            }
+            
+            data = data + "Winner: " + winnerName + " wins with " + ballotWhereCandisOneList.get(winnerIndex).size() + " #1's";
+            String temp = winnerName;
+            StringBuilder modifiedTemp = new StringBuilder();
+            for (int i = 0; i < temp.length(); i++) {
+                if (temp.charAt(i) == ' ') {
+                    modifiedTemp.append('_');
+                } else {
+                    modifiedTemp.append(temp.charAt(i));
+                }
+            }
+            temp = modifiedTemp.toString();
+            temp = temp.toLowerCase();
+            String o = "outputFiles/" + temp + ballotWhereCandisOneList.get(winnerIndex).size() + ".txt";
+            OutputStream output = new FileOutputStream(o);
+            byte[] array = data.getBytes();
+            output.write(array);
+
+            output.close();
+
+            
+            
             return winnerName;
         } else {
             System.out.println("else checked");
@@ -233,6 +250,7 @@ public class Election {
             int elimindex = candidateList.firstIndex(eliminatedCandidate);
             eliminatedCandidateList.add(eliminatedCandidate.getName() + "-" + ballotWhereCandisOneList.get(elimindex).size());
             removedCandList.add(eliminatedCandidate);
+            removedListIndexes.add(ballotWhereCandisOneList.get(elimindex).size());
 
             for (Candidate c : candidateList){
                 for(Ballot b : ballotList){
@@ -305,8 +323,9 @@ public class Election {
     * Prints all the general information about the election as well as a 
     * table with the vote distribution.
     * Meant for helping in the debugging process.
+     * @throws IOException 
     */
-    public void printBallotDistribution() {
+    public void printBallotDistribution() throws IOException {
         System.out.println("Total ballots:" + getTotalBallots());
         System.out.println("Total blank ballots:" + getTotalBlankBallots());
         System.out.println("Total invalid ballots:" + getTotalInvalidBallots());
