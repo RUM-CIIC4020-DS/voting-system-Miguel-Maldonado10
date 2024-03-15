@@ -56,9 +56,9 @@ public class Ballot {
             
         }
 
-        if(candidates.size() < Preference.size()){
+        /*if(candidates.size() < Preference.size()){
             isValid = false;
-        }
+        }*/
 
         for(Integer p : Preference){
             if(p>candidates.size()){
@@ -93,11 +93,6 @@ public class Ballot {
         if(skipI != Preference.size()-1){
             isValid=false;
         }
-
-
-
-
-    
     }
 
     // Returns the ballot number
@@ -141,7 +136,6 @@ public class Ballot {
         if (c == -1) {
             return false;
         }
-    
         candidateIDs.remove(c);
     
         if (Preference.isEmpty()) {
@@ -153,8 +147,8 @@ public class Ballot {
         int maxindex = 0;
         int curr = Preference.get(0);
     
-        for (int i = 1; i < Preference.size(); i++) {
-            if (max < Preference.get(i)) {
+        for (int i = 0; i < Preference.size(); i++) {
+            if (max <= Preference.get(i)) {
                 max = Preference.get(i);
                 maxindex = i;
             }

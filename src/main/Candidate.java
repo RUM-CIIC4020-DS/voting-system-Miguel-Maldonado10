@@ -23,6 +23,9 @@ public class Candidate {
     public boolean isActive(){
         return active;
     } 
+    public void stepDown(){
+        active = false;
+    }
     // return the candidates name
     public String getName(){
         return name;

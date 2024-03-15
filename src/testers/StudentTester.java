@@ -199,7 +199,7 @@ public class StudentTester {
 			}
 			@Test
 			@DisplayName("Creating Ballot Part 6: Blank ballot")
-			public void testConstructor7() {
+ 			public void testConstructor7() {
 				List<Candidate> candidates = new ArrayList<Candidate>(10);
 				candidates.add(new Candidate("1,Ron Stoppable"));
 				candidates.add(new Candidate("2,Kim Possible"));
@@ -252,6 +252,7 @@ public class StudentTester {
 			@DisplayName("Creating Election")
 			public void testConstructor1() {
 				Election election = new Election();
+				election.printBallotDistribution();
 				
 				assertAll(
 						() -> assertTrue(election.getWinner().equals("Pepe Perez"), "Didn't get Correct winner."),
@@ -271,6 +272,7 @@ public class StudentTester {
 			@DisplayName("Creating Election 2")
 			public void testConstructor2() {
 				Election election = new Election("candidates.csv", "ballots.csv");
+				//election.printBallotDistribution();
 				
 				assertAll(
 						() -> assertTrue(election.getWinner().equals("Pepe Perez"), "Didn't get Correct winner."),
@@ -278,11 +280,12 @@ public class StudentTester {
 						() -> assertTrue(election.getTotalBlankBallots() == 3, "Didn't count correct amount of blank ballots"),
 						() -> assertTrue(election.getTotalInvalidBallots() == 2, "Didn't count correct amount of invalid ballots"),
 						() -> assertTrue(election.getTotalBlankBallots() == 3, "Didn't count correct amount of blank ballots"),
-						() -> assertTrue(election.getTotalValidBallots() == 10, "Didn't count correct amount of valid ballots"),
+						() -> assertTrue(election.getTotalValidBallots() == 10, "Didn't count correct amount of valid ballots") ,
 						() -> assertTrue(election.getEliminatedCandidates().get(0).equals("Lola Mento-1"), "Didn't return correct eliminated candidate and/or count for this position"),
 						() -> assertTrue(election.getEliminatedCandidates().get(1).equals("Juan Lopez-1"), "Didn't return correct eliminated candidate and/or count for this position"),
 						() -> assertTrue(election.getEliminatedCandidates().get(2).equals("Pucho Avellanet-3"), "Didn't return correct eliminated candidate and/or count for this position")
 						);
+						
 				
 	
 			}
