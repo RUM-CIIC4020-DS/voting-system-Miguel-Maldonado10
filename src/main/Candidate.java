@@ -1,7 +1,18 @@
 package main;
 
-/* Creates a Candidate from the line. The line will have the format 
-ID#,candidate_name .*/
+
+/**
+ * This is the Candidate class that sperates IDs and Names form the starting parameter line
+ * @author Miguel A. Maldonado Maldonado
+ * 
+ * Creates a Candidate from the line. The line will have the format 
+ * ID#,candidate_name .
+ *
+ * @param id The identification number of the candidate
+ * @param name The name of this candidate
+ * @param active The status of this candidate
+ * 
+ */
 
 public class Candidate {
     private int id;
@@ -15,7 +26,7 @@ public class Candidate {
         id = Integer.parseInt(line.substring(0, count));
         name = line.substring(count+1);
     }
-    // returns the candidate’s id
+    // Returns the candidate’s id
     public int getId() {   
         return id;
     }
@@ -26,7 +37,7 @@ public class Candidate {
     public void stepDown(){
         active = false;
     }
-    // return the candidates name
+    // Return the candidates name
     public String getName(){
         return name;
     }

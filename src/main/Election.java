@@ -8,13 +8,37 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import data_structures.ArrayList;
+/**
+ * @author Miguel Angel Maldonado Maldonado
+ * 
+ * @param candidateList this list contains all of the candidates listed in the csv file
+ * @param ballotList this list contains all of the ballots listed in the csv file
+ * @param secondVoteCount this list contains the votes when braking ties between the candidates with the least amount of 1s
+ * @param eliminatedCandidateList this list contains the names of the eliminated candidates alongside the amounts of votes they had when they got eliminated
+ * @param removedCandList this list contains the candidates that were eliminated in order
+ * @param removedListIndexes this list contains the index in candidateList when we removed a set candidate
+ * 
+ * @param maxrounds The max amount of rounds that getWinner() can recur for
+ * @param electionRound the round of the election we're at
+ * 
+ * @param totalBallots The total ballots in ballotList
+ * @param validBallots The total valid ballots in ballotList
+ * @param invalidBallots The total invalid ballots in ballotList
+ * @param blankBallots The total blank ballots in ballotList
+ * 
+ * @param ballotWhereCandisOneList This list contains lists of ballots. They are organized so that every ballot in a list has the same rank 1 candidate. 
+ * This is done so we can iterate on these lists when their number 1 candidate gets eliminated
+ * @param deathRow This list contains the lists of ballots where their candidate ranked 1 is tied for the least amounts of votes, then we remove any elements once we break the tie
+ * 
+ * 
+ */
 
 public class Election {
     /* Constructor that implements the election logic using the files candidates.csv 
     and ballots.csv as input. (Default constructor) */ 
     List<Candidate> candidateList = new ArrayList<Candidate>();
     List<Ballot> ballotList = new ArrayList<Ballot>();
-    List<Integer> SecondVoteCount = new ArrayList<Integer>();
+    
     List<String> eliminatedCandidateList = new ArrayList<String>();
     List<Candidate> removedCandList = new ArrayList<Candidate>();
     List<Integer> removedListIndexes = new ArrayList<>();
@@ -27,11 +51,7 @@ public class Election {
     int invalidBallots = 0;
     int blankBallots = 0;
 
-    String wname = null;
-    int winnerVotes;
-
     List<List<Ballot>> ballotWhereCandisOneList = new ArrayList<List<Ballot>>();
-    List<List<Ballot>> deathRow = new ArrayList<List<Ballot>>();
 
    
     public Election() {
@@ -61,10 +81,6 @@ public class Election {
             }
             totalBallots++;
         }
-        if(wname != null){
-            
-        }
-
         
     } catch (FileNotFoundException e) {
         System.err.println("File not found: " + e.getMessage());
@@ -112,7 +128,20 @@ public class Election {
         } 
 
     }
-    // returns the name of the winner of the election 
+    /**
+     * This method determines the winner of election
+     * @return the name of the winner of the election 
+     * @throws IOException 
+     * first we determine that the candidateList is not empty or that the election round exceeds the max rounds
+     * then we distribute the votes in ballotWhereCandisOneList
+     * we then determine the max amount of votes and check if the winning conditions are met
+     * in the case the winning conditions are met we create the report file and return the winner name
+     * else we determine the lowest amounts of votes and add all candidates with this to a list called eliminatingCandidates
+     * then we check if eliminatingCandidates has more then one element
+     * if there is more then one element we check the next highestRank of the eliminatingCandidates and remove from this list the ones with the most votes
+     * then once eliminatingCandidates has only one element we remove this element from the lists and recur over getWinner() until we get a solid answer
+     * 
+     */
     public String getWinner() throws IOException {
         if (candidateList.isEmpty()){
             return null;
@@ -191,7 +220,6 @@ public class Election {
             
             return winnerName;
         } else {
-            System.out.println("else checked");
             int minVotes = Integer.MAX_VALUE;
             for (int i = 0; i < ballotWhereCandisOneList.size(); i++) {
                 if(!ballotWhereCandisOneList.get(i).isEmpty()){
@@ -274,8 +302,6 @@ public class Election {
                     cin++;
                 }
             }
-
-            System.out.println("non empty lists " + cin);
 
 
             for(List<Ballot> l : ballotWhereCandisOneList){

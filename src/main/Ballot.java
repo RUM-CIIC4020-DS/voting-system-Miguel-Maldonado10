@@ -2,9 +2,19 @@ package main;
 import interfaces.List;
 import data_structures.SinglyLinkedList;
 
-/* Creates a ballot based on the line it receives. The format for line is 
-id#,candidate_name . It also receives a List of all the candidates in the 
-elections.*/
+
+/**
+ * Creates a ballot based on the line it receives. The format for line is 
+ * id#,candidate_name . It also receives a List of all the candidates in the 
+ * elections.
+ * @author Miguel A. Maldonado Maldonado
+ * 
+ * @param isValid The current status of the ballot
+ * @param bn The number of this ballot
+ * @param candidateIDs The list of bjects of type Candidate that are present in the ballot
+ * @param Preference The list of the ranking in the ballot
+ * 
+ */
 
 public class Ballot {
     private boolean isValid = true;
@@ -55,10 +65,6 @@ public class Ballot {
             }
             
         }
-
-        /*if(candidates.size() < Preference.size()){
-            isValid = false;
-        }*/
 
         for(Integer p : Preference){
             if(p>candidates.size()){
